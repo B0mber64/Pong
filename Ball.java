@@ -12,8 +12,6 @@ public class Ball extends Actor
     private int directionY=4;
 //  Sets directionX and directionY through an array.
     private int direction=10;
-    private int score1=0;
-    private int score2=0;
     private int timer=50;
     public Ball(){
         
@@ -30,14 +28,10 @@ public class Ball extends Actor
         directionX=array[0];
         directionY=array[1];
         move();
+        score();
 // detect wall hit and reset the ball to the middle.
         direction=loss(direction);
         direction=ballHit(direction);
-//  get scores
-        int scoreArray[]=score(score1, score2);
-        score1=scoreArray[0];
-        score2=scoreArray[1];
-        scoreDisplay(score1,score2);
     }
 //  moves set X and Y
     public void move(){
@@ -129,7 +123,6 @@ public class Ball extends Actor
    }
    //  check for loss if ball is at either edge
     public int loss(int direction){
-//      ball at left or right edge
         if(getX()>=580 || getX()<=20){
             setLocation(getWorld().getWidth()/2, getWorld().getHeight()/2);
             direction=(int)(Math.random()*2);
@@ -144,15 +137,14 @@ public class Ball extends Actor
         return direction;
     }
     //  when ball hits left add a point to player 1, hit right add a point to player 2
-    public int[] score(int score1, int score2){
+    public void score(){
+        Table myTable = (Table) getWorld();
         if(getX()<=20){
-            score1++;
+            myTable.score(1);
         }
         if(getX()>=580){
-            score2++;
+            myTable.score(2);
         }
-        int score[]={score1,score2};
-        return score;
     }
 
     }

@@ -12,6 +12,8 @@ public class Table extends World
     private Player player1;
     private Player player2;
     private Ball ball;
+    private Score score1;
+    private Score score2;
     /**
      * Constructor for objects of class Table.
      * s
@@ -23,10 +25,13 @@ public class Table extends World
         ball=new Ball();
         player1=new Player("w", "s");
         player2=new Player("up", "down");
+        score1=new Score();
+        score2=new Score();
         addObject(ball, getWidth()/2, getHeight()/2);
         addObject(player1, getWidth()-560, getHeight()/2);
         addObject(player2, getWidth()-40, getHeight()/2);
-               
+        addObject(score1, getWidth()/2+40,40);   
+        addObject(score2, getWidth()/2-40,40); 
         getBackground().drawLine(getWidth()/2,0,getWidth()/2,getHeight());
     }
 
@@ -110,5 +115,14 @@ public class Table extends World
         
         
         return direction;
+    }
+    //  when ball hits left add a point to player 1, hit right add a point to player 2
+    public void score(int side){
+        if(side==1){
+        score1.addPoint1();
+        }
+        if(ball.getX()>=580){
+        score2.addPoint2();
+        }
     }
 }

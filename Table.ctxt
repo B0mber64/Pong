@@ -6,4 +6,6 @@ comment1.target=Table()
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Table.\r\n\ s\r\n
 comment2.params=direction
 comment2.target=int\ bounce(int)
-numComments=3
+comment3.params=side
+comment3.target=void\ score(int)
+numComments=4
