@@ -26,9 +26,10 @@ public class Player extends Actor
         move();
         hitEdge();
     }
+/**
+ * "W" and "S" keys control Player 1. "Up" and "Down:" keys for Player 2.
+ */    
     public void move(){
-//  Key pressed for the right Player will move it up or down the amount
-//      specified in the speed variable.    
         if(Greenfoot.isKeyDown(playerUp)){
             setLocation(getX(),(getY()-speed));
         }
@@ -36,8 +37,10 @@ public class Player extends Actor
             setLocation(getX(),(getY()+speed));
         }
     }
-//  Keeps Players at the edge when going up or down.
-//      puts them back to wear they were before they moved out of the edge.
+/**
+ * Keeps players from going out of bounds, 
+ * returns them to their position before going out of bounds.
+ */
     public void hitEdge(){
         if(Greenfoot.isKeyDown(playerUp)){
             if(getY()<=56){

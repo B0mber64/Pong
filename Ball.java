@@ -12,7 +12,9 @@ public class Ball extends Actor
     private int directionY=4;
 //  Sets directionX and directionY through an array.
     private int direction=10;
-    private int timer=50;
+    private int timer=40;
+    private boolean ready;
+    private boolean space;
     public Ball(){
         
     }
@@ -22,24 +24,37 @@ public class Ball extends Actor
      */
     public void act()
     {
-        timer++;
+        Table myTable = (Table) getWorld();
+        if(Greenfoot.isKeyDown("space")&&!space){
+            myTable.start();
+            ready=true;
+            space=true;
+        }
+        if(ready==true){
+            timer++;
 //  line 13
-        int array[]=directionArray(directionX, directionY, direction);
-        directionX=array[0];
-        directionY=array[1];
-        move();
-        score();
+            int array[]=directionArray(directionX, directionY, direction);
+            directionX=array[0];
+            directionY=array[1];
+            move();
+            score();
 // detect wall hit and reset the ball to the middle.
-        direction=loss(direction);
-        direction=ballHit(direction);
+            direction=loss(direction);
+            direction=ballHit(direction);
+        }
     }
-//  moves set X and Y
+/**
+ * Allows the ball to move.
+ */
     public void move(){
         if(timer>=40){
         setLocation(getX()+(directionX),getY()+(directionY));
     }
     }
 //  bounces the ball in the direction for the case. case = int direction
+/**
+ * Ball bounces in the direction corrolated to the direction int returned.
+ */
     public int ballHit(int direction){
 //  Ball hit world top.
         if(getY()<=20){
@@ -94,12 +109,9 @@ public class Ball extends Actor
         direction=myTable.bounce(direction);
         return direction;
     }
-//  display scores
-    public void scoreDisplay(int score1, int score2){
-        
-    }
-//  The int for the direction variable will always 
-//  corrolate with it's case, sending back the x and y for that case.
+/**
+ * This is the array that states what direction each case is.
+ */
     public static int[] directionArray(int x, int y, int direction){
         switch(direction) {
             case 0: x=4; y=-6; break;
@@ -121,7 +133,9 @@ public class Ball extends Actor
         int array[]={x, y};
             return array;
    }
-   //  check for loss if ball is at either edge
+/**
+ * When the ball hits either wall it will reset back to the middle and go left or right.
+ */
     public int loss(int direction){
         if(getX()>=580 || getX()<=20){
             setLocation(getWorld().getWidth()/2, getWorld().getHeight()/2);
@@ -136,12 +150,16 @@ public class Ball extends Actor
         }
         return direction;
     }
-    //  when ball hits left add a point to player 1, hit right add a point to player 2
+/**
+ * When the ball hits the left or right wall, the opposit player gets a point.
+ */
     public void score(){
         Table myTable = (Table) getWorld();
+    //  left wall
         if(getX()<=20){
             myTable.score(1);
         }
+    //  right wall
         if(getX()>=580){
             myTable.score(2);
         }

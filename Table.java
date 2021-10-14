@@ -14,9 +14,9 @@ public class Table extends World
     private Ball ball;
     private Score score1;
     private Score score2;
+    private Begin begin;
     /**
      * Constructor for objects of class Table.
-     * s
      */
     public Table()
     {    
@@ -27,16 +27,25 @@ public class Table extends World
         player2=new Player("up", "down");
         score1=new Score();
         score2=new Score();
-        addObject(ball, getWidth()/2, getHeight()/2);
+        begin=new Begin();
+        addObject(begin, getWidth()/2, getHeight()/2);
+        addObject(ball, getWidth()/2, 0);
         addObject(player1, getWidth()-560, getHeight()/2);
         addObject(player2, getWidth()-40, getHeight()/2);
         addObject(score1, getWidth()/2+40,40);   
-        addObject(score2, getWidth()/2-40,40); 
+        addObject(score2, getWidth()/2-40,40);
+    }
+/**
+ * Removes start screen and starts ball code.
+ */
+    public void start(){
+        removeObject(begin);
+        ball.setLocation(getWidth()/2, getHeight()/2);
         getBackground().drawLine(getWidth()/2,0,getWidth()/2,getHeight());
     }
-
-    
-//  ball bounce when hit players
+/**
+ * Allows the ball to bounce off paddles at different directions.
+ */
     public int bounce(int direction){
 //  player1 bounce:
 //      top:
@@ -117,6 +126,10 @@ public class Table extends World
         return direction;
     }
     //  when ball hits left add a point to player 1, hit right add a point to player 2
+/**
+ * When the ball hits the left side, adds point to Player 2,
+ * right side adds point to Player 1.
+ */
     public void score(int side){
         if(side==1){
         score1.addPoint1();
@@ -124,5 +137,12 @@ public class Table extends World
         if(ball.getX()>=580){
         score2.addPoint2();
         }
+    }
+/**
+ * Removes ball so end display can be seen.
+ */    
+    public void killBall(){
+        removeObject(ball);
+        Greenfoot.stop();
     }
 }
